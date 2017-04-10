@@ -4,7 +4,7 @@ int main() {
     int a, b;
     scanf("%d %d", &a, &b);
 
-    if (a % 2 != 0 || b % 2 != 0) {
+    if ((a + b) % 2 != 0 || (b - a) % 2 != 0) {
         printf("ERROR\n");
     } else {
         printf("%d %d\n", (a + b) / 2, (b - a) / 2);
