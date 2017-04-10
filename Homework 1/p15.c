@@ -7,17 +7,22 @@ int count(char arr[], int n) {
     return i;
 }
 
+int even(int i, int n) {
+    return (i + ((n % 2) == 0 ? 0 : 1)) % 2 == 0 ? 1 : 0;
+}
+
 int main() {
-    int i, j;
-    char numbers[100], t[2];
+    int i, j, n;
+    char numbers[100], t[3];
     int x = 0;
 
     scanf("%s", numbers);
+    n = count(numbers, 100);
 
-    for (i=count(numbers, 100)-1; i>=0; i--) {
-        if ((i + 1) % 2 == 0) {
+    for (i=0; i<n; i++) {
+        if (even(i, n)) {
             sprintf(t, "%d", 2 * (numbers[i] - '0'));
-            for (j=0; j < count(t, 2); j++) {
+            for (j=0; j<count(t, 3); j++) {
                 x += t[j] - '0';
             }
         } else {
