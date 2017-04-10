@@ -15,11 +15,11 @@ int main() {
     float data[1245];
 
     for (i=0; i<1245; i++) {
-        scanf("%f", data[i]);
+        scanf("%f", &data[i]);
     }
 
-    for (i=20; i<1245; i++) {
-        printf("%d %f %f %f\n", i, data[i], SMA(data, i, 5), SMA(data, i, 20));
+    for (i=19; i<1245; i++) {
+        printf("%d %.2f %.2f %.2f\n", i + 1, data[i], SMA(data, i, 5), SMA(data, i, 20));
     }
 
     return 0;
