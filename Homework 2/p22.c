@@ -28,23 +28,27 @@ int main() {
 }
 
 int selectionsort(int *x, int n) {
-    int i, j, k, l;
-    int m = 0;
+    int i, j, k, t;
+    int l = 0;
 
     for (i=0; i<n-1; i++) {
+        k = i;
         for (j=i+1; j<n; j++) {
-            if (x[i] > x[j]) {
-                l = x[i];
-                x[i] = x[j];
-                x[j] = l;
-
-                printf("SWAP(%d,%d)\n# ", i, j);
-                for (k=0; k<n; k++) {
-                    printf(k < n - 1 ? "%d " : "%d\n", x[k]);
-                }
+            if (x[j] < x[k]) {
+                k = j;
             }
-            m++;
+            l++;
+        }
+
+        if (x[k] < x[i]) {
+            t = x[i];
+            x[i] = x[k];
+            x[k] = t;
+            printf("SWAP(%d,%d)\n# ", i, k);
+            for (j=0; j<n; j++) {
+                printf(j < n - 1 ? "%d " : "%d\n", x[j]);
+            }
         }
     }
-    return m;
+    return l;
 }
