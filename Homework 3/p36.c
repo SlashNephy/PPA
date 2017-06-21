@@ -20,6 +20,8 @@ int main() {
     int m, n;
     // 実際に適用された操作t
     char *O;
+    // 操作数l
+    int l;
 
     scanf("%s %s", X, Y);
 
@@ -29,7 +31,7 @@ int main() {
     // 配列を確保 / 初期化
     c = (int **)malloc(sizeof(int *) * (m + 1));
     o = (char **)malloc(sizeof(char *) * (m + 1));
-    O = (char *)malloc(sizeof(char) * m * n);
+    O = (char *)malloc(sizeof(char) * (m * n + m + n + 1));
     for (i=0; i<m+1; i++) {
         c[i] = (int *)malloc(sizeof(int) * (n + 1));
         o[i] = (char *)malloc(sizeof(char) * (n + 1));
@@ -57,12 +59,17 @@ int main() {
     }
     // Oを正順に並び替える
     reverse(O);
+    l = strlen(O);
 
     // j=0: X, j=1: Y, j=2: Oの出力
     for (j=0; j<3; j++) {
-        for (i=0,k=0; i<strlen(O); i++) {
+        for (i=0,k=0;; i++) {
+            // Oの出力
             if (j == 2) {
                 printf("%c", O[i]);
+                if (i == l - 1) {
+                    break;
+                }
                 continue;
             }
             // 文字数を超えたらbreak
@@ -80,14 +87,14 @@ int main() {
                     if (j == 0) {
                         printf("%c", X[k]);
                         k++;
-                    } else if (j == 1) {
+                    } else {
                         printf(" ");
                     }
                     break;
                 case 'I':
                     if (j == 0) {
                         printf(" ");
-                    } else if (j == 1) {
+                    } else {
                         printf("%c", Y[k]);
                         k++;
                     }
@@ -122,12 +129,12 @@ int ld(char *x, int m, char *y, int n) {
             i = ld(x, m, y, n-1) + 1;
             c[m][n] = min3(cr, d, i);
 
-            if (c[m][n] == d) {
+            if (c[m][n] == cr) {
+                o[m][n] = x[m-1] != y[n-1] ? 'R' : '=';
+            } else if (c[m][n] == d) {
                 o[m][n] = 'D';
             } else if (c[m][n] == i) {
                 o[m][n] = 'I';
-            } else if (c[m][n] == cr) {
-                o[m][n] = x[m-1] != y[n-1] ? 'R' : '=';
             }
         }
     }
