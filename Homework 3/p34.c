@@ -2,64 +2,48 @@
 #include <string.h>
 #include <stdlib.h>
 
-int ld(char *x, int m, char *y, int n);
 int min3(int a, int b, int c);
 
-int **c;
-
 int main() {
-    int i, j, k, l, m, n;
+    // ループ変数
+    int i, j;
+    // 文字列X, Y
     char X[100], Y[100];
+    // 文字列X, Yの長さm, n
+    int m, n;
 
     scanf("%s %s", X, Y);
     m = strlen(X);
     n = strlen(Y);
 
-    c = (int **)malloc(sizeof(int *) * (m + 1));
-    for (i=0; i<m+1; i++) {
-        c[i] = (int *)malloc(sizeof(int) * (n + 1));
+    printf("    ");
+    for (i=0; i<n; i++) {
+        printf(i != n-1 ? "%c " : "%c\n", Y[i]);
     }
 
-    for (i=0; i<m+2; i++) {
-        if (i == 0) {
-            printf("    ");
-            for (j=0; j<n; j++) {
-                printf(j != n-1 ? "%c " : "%c\n", Y[j]);
-            }
-        } else {
-            if (i == 1) {
-                printf("  ");
-                k = 0;
+    int **c = (int **)malloc(sizeof(int *) * (m + 1));
+    for (i=0; i<m+1; i++) {
+        c[i] = (int *)malloc(sizeof(int) * (n + 1));
+
+        printf("%c ", i == 0 ? ' ' : X[i-1]);
+        for (j=0; j<n+1; j++) {
+            if (i == 0 || j == 0) {
+                c[i][j] = i > j ? i : j;
             } else {
-                printf("%c ", X[k-1]);
+                c[i][j] = min3(
+                    c[i-1][j-1] + (X[i-1] != Y[j-1] ? 1 : 0),
+                    c[i-1][j] + 1,
+                    c[i][j-1] + 1
+                );
             }
 
-            for (l=0; l<n+1; l++) {
-                c[k][l] = ld(X, k, Y, l);
-                printf(l != n ? "%d " : "%d\n", c[k][l]);
-            }
-            k++;
+            printf(j != n ? "%d " : "%d\n", c[i][j]);
         }
     }
 
     free(c);
 
     return 0;
-}
-
-int ld(char *x, int m, char *y, int n) {
-    if (m == 0 || n == 0) {
-        return m > n ? m : n;
-    }
-    if (c[m][n] != 0) {
-        return c[m][n];
-    }
-
-    return min3(
-        ld(x, m-1, y, n-1) + (x[m-1] != y[n-1] ? 1 : 0),
-        ld(x, m-1, y, n) + 1,
-        ld(x, m, y, n-1) + 1
-    );
 }
 
 int min3(int a, int b, int c) {
